@@ -136,7 +136,7 @@ class MySQL:
 
     def write_spec(self, sku, spec):
 
-        rgs_str = ','.join(['({},"{}","{}")'.format(sku, i["name"], i["param"]) for i in spec])
+        rgs_str = ','.join(['({},"{}","{}")'.format(sku, i["name"], i["value"]) for i in spec])
         self.write_db(query=('insert into specifications (sku,name,value) values' + rgs_str), data=())
 
 
