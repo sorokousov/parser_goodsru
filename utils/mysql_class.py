@@ -22,7 +22,6 @@ def connect_db():
 
 class MySQL:
     def write_db(self, query, data=None):
-        print(query)
         with connect_db() as cursor:
             if data:
                 cursor.execute(query, data)

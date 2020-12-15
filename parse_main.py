@@ -70,7 +70,6 @@ def main():
         MySQL().set_product_main_in_process(id_product=product_['id'])
 
         response = get_soup(url=product_['link_product'])
-        print(product_['link_product'])
         sku = product_['sku']
         id_product = product_['id']
         id_category = product_['id_category']
