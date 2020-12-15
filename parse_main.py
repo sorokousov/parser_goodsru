@@ -66,10 +66,11 @@ def main():
     n = 0
 
     while True:
-        product_ = MySQL().get_product()
+        product_ = MySQL().get_product_main()
         MySQL().set_product_main_in_process(id_product=product_['id'])
 
         response = get_soup(url=product_['link_product'])
+        print(product_['link_product'])
         sku = product_['sku']
         id_product = product_['id']
         id_category = product_['id_category']
@@ -90,7 +91,8 @@ def main():
             MySQL().write_description(sku=sku, description=description)
             MySQL().set_product_main_ready(id_product=id_product)
         else:
-            MySQL().set_product_main_bad(id_product=id_product)
+            MySQL().set_product_main_ready(id_product=id_product)
+            # MySQL().set_product_main_bad(id_product=id_product)
 
         n += 1
         print('\rCount', n, 'Time', datetime.now() - start_time, end='')

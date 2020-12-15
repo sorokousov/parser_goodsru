@@ -4,3 +4,18 @@ ssh root@45.133.245.10
 https://rwg4y25q:d69kytba@92.255.253.137:18615
 https://tyb641fg:umtmv99g@92.255.253.137:15187
 
+https://github.com/sorokousov/parser_goodsru.git
+
+apt update && apt upgrade -y && apt install python3-pip git tmux -y && pip3 install mysql-connector-python requests bs4 && dpkg-reconfigure locales
+git clone https://github.com/sorokousov/parser_goodsru.git ./p1
+
+1 ssh root@185.117.152.100
+2 ssh root@45.89.67.36
+3 ssh root@185.117.153.121
+4 ssh root@185.117.153.128
+5 ssh root@185.117.153.153
+6 ssh root@46.173.218.72
+7 ssh root@46.17.106.126
+8 ssh root@46.173.218.88
+9 ssh root@46.173.218.202
+10 ssh root@46.173.218.209

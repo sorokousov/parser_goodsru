@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from config import sum_key
 from mysql.connector import MySQLConnection
 from contextlib import contextmanager
@@ -21,6 +22,7 @@ def connect_db():
 
 class MySQL:
     def write_db(self, query, data=None):
+        print(query)
         with connect_db() as cursor:
             if data:
                 cursor.execute(query, data)
@@ -78,9 +80,9 @@ class MySQL:
 
         return True
 
-    # product
+    # image + description
 
-    def get_product(self):
+    def get_product_main(self):
         try:
             return self.read_db('select * from products where status_images="stop" limit 1', ())[0]
         except:
@@ -113,10 +115,32 @@ class MySQL:
         except:
             pass
 
+    # spec
 
+    def get_product_spec(self):
+        try:
+            return self.read_db('select * from products where status_specifications="stop" limit 1', ())[0]
+        except:
+            return None
 
+    def set_product_spec_in_process(self, id_product):
+        self.write_db('update products set status_specifications="in_process" where id=%s', (id_product,))
+
+    def set_product_spec_ready(self, id_product):
+        self.write_db('update products set status_specifications="ready" where id=%s', (id_product,))
+
+    def set_product_spec_stop(self, id_product):
+        self.write_db('update products set status_specifications="stop" where id=%s', (id_product,))
+
+    def set_product_spec_bad(self, id_product):
+        self.write_db('update products set status_specifications="bad" where id=%s', (id_product,))
+
+    def write_spec(self, sku, spec):
+
+        rgs_str = ','.join(['({},"{}","{}")'.format(sku, i["name"], i["param"]) for i in spec])
+        self.write_db(query=('insert into specifications (sku,name,value) values' + rgs_str), data=())
 
 
 if __name__ == '__main__':
-    MySQL().write_db(query='insert into products(sku,price,name,id_brand,id_category,link_product) values(%s,%s,%s,%s,%s,%s)',
-                  data=('1111222333', 7689, 'STiralka', 7, 2, 'dskfhjsdf'))
+    a = [{'name': 'Бренд', 'param': 'ATLANT'}, {'name': 'Модель', 'param': 'ХМ 6021-031'}, {'name': 'Артикул производителя', 'param': '101508'}, {'name': 'Вид', 'param': 'отдельностоящий'}, {'name': 'Тип', 'param': 'двухкамерный'}, {'name': 'Количество камер', 'param': '2'}, {'name': 'Количество дверей', 'param': '2'}, {'name': 'Расположение морозильной камеры', 'param': 'снизу'}, {'name': 'Общий объем, в литрах', 'param': '345'}, {'name': 'Система No Frost', 'param': 'без No Frost'}, {'name': 'Климатический класс', 'param': 'SN-ST'}, {'name': 'Компрессор', 'param': 'стандартный'}, {'name': 'Количество компрессоров', 'param': '2'}, {'name': 'Уровень шума, в децибелах', 'param': '40'}, {'name': 'Класс энергоэффективности', 'param': 'A'}, {'name': 'Энергопотребление, в кВт*ч/год', 'param': '374'}, {'name': 'Объем холодильной камеры, в литрах', 'param': '225'}, {'name': 'Размораживание холодильной камеры', 'param': 'капельная система'}, {'name': 'Зона свежести', 'param': 'Нет'}, {'name': 'Объем морозильной камеры, в литрах', 'param': '101'}, {'name': 'Класс морозильной камеры', 'param': '***'}, {'name': 'Минимальная температура в морозильной камере, в °C', 'param': '-18'}, {'name': 'Размораживание морозильной камеры', 'param': 'ручное'}, {'name': 'Мощность замораживания, килограммов в сутки', 'param': '15'}, {'name': 'Сохранение холода при отключении питания, в часах', 'param': '17'}, {'name': 'Количество секций морозильной камеры', 'param': '1'}, {'name': 'Особенности конструкции', 'param': 'перенавешиваемые двери; ручки легкого открывания'}, {'name': 'Материал корпуса', 'param': 'металл'}, {'name': 'Цвет корпуса', 'param': 'белый'}, {'name': 'Дисплей', 'param': 'отсутствует'}, {'name': 'Тип управления', 'param': 'электромеханическое'}, {'name': 'Режимы работы', 'param': 'суперзаморозка'}, {'name': 'Индикация', 'param': 'режима работы; открытой двери холодильной камеры'}, {'name': 'Количество полок в холодильной камере', 'param': '4'}, {'name': 'Количество ящиков в холодильной камере', 'param': '2'}, {'name': 'Количество полок на двери холодильной камеры', 'param': '6'}, {'name': 'Количество ящиков в морозильной камере', 'param': '3'}, {'name': 'Комплект поставки', 'param': 'формочки для льда; кронштейн для бутылок; подставка для яиц'}, {'name': 'Высота, в сантиметрах', 'param': '186'}, {'name': 'Ширина, в сантиметрах', 'param': '60'}, {'name': 'Глубина, в сантиметрах', 'param': '63'}, {'name': 'Вес, в килограммах', 'param': '71'}, {'name': 'Габариты, в сантиметрах (ВxШxГ)', 'param': '186x60x63'}]
+    MySQL().write_spec(sku=123, spec=a)
