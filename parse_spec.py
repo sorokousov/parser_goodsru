@@ -50,8 +50,9 @@ def main():
 
         if spec:
             MySQL().write_spec(sku=sku, spec=spec)
+            MySQL().set_product_spec_ready(id_product=id_product)
         else:
-            MySQL().set_product_spec_stop(id_product=id_product)
+            MySQL().set_product_spec_ready(id_product=id_product)
 
         n += 1
         print('\rCount', n, 'Time', datetime.now() - start_time, end='')
