@@ -91,8 +91,8 @@ class MySQL:
     def get_product_main(self):
         timestamp = datetime.now().timestamp()
         try:
-            self.write_db('update products a join (select * from products where status_images="stop" limit 1) b on a.id = b.id SET a.status_images="in_process", a.status_reviews=%s', (timestamp,))
-            return self.read_db('select * from products where status_reviews=%s limit 1', (timestamp,))[0]
+            self.write_db('update products a join (select * from products where status_images="stop" limit 1) b on a.id = b.id SET a.status_images="in_process", a.uniq_string=%s', (timestamp,))
+            return self.read_db('select * from products where uniq_string=%s limit 1', (timestamp,))[0]
         except:
             return None
 
@@ -130,8 +130,10 @@ class MySQL:
     # spec
 
     def get_product_spec(self):
+        timestamp = datetime.now().timestamp()
         try:
-            return self.read_db('select * from products where status_specifications="stop" limit 1', ())[0]
+            self.write_db('update products a join (select * from products where status_specifications="stop" limit 1) b on a.id = b.id SET a.status_specifications="in_process", a.uniq_string=%s', (timestamp,))
+            return self.read_db('select * from products where uniq_string=%s and status_specifications="in_process" limit 1', (timestamp,))[0]
         except:
             return None
 
@@ -148,9 +150,12 @@ class MySQL:
         self.write_db('update products set status_specifications="bad" where id=%s', (id_product,))
 
     def write_spec(self, spec):
-
-        self.write_db(query='insert into specifications (sku,name,value) values (%s,%s,%s)', data=(spec), many=True)
+        try:
+            self.write_db(query='insert into specifications (sku,name,value) values (%s,%s,%s)', data=(*spec,), many=True)
+        except:
+            pass
 
 
 if __name__ == '__main__':
-    a = [{'name': "Бренд'", 'value': 'ATLANT'}, {'name': 'Модель', 'value': 'ХМ 6021-031'}, {'name': 'Артикул производителя', 'value': '101508'}, {'name': 'Вид', 'value': 'отдельностоящий'}, {'name': 'Тип', 'value': 'двухкамерный'}, {'name': 'Количество камер', 'value': '2'}, {'name': 'Количество дверей', 'value': '2'}, {'name': 'Расположение морозильной камеры', 'value': 'снизу'}, {'name': 'Общий объем, в литрах', 'value': '345'}]
+    a = [[1,2,3], [4,5,6]]
+    MySQL().write_spec(spec=a)

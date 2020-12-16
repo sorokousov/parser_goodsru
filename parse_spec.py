@@ -31,29 +31,27 @@ def main():
 
     while True:
         product_ = MySQL().get_product_spec()
-        MySQL().set_product_spec_in_process(id_product=product_['id'])
+        if product_:
 
-        link_ = product_['link_product']
-        if link_.endswith('/'):
-            link = link_ + 'spec/'
-        else:
-            link = link_ + '/spec/'
+            link_ = product_['link_product']
+            if link_.endswith('/'):
+                link = link_ + 'spec/'
+            else:
+                link = link_ + '/spec/'
 
-        response = get_soup(url=link)
-        sku = product_['sku']
-        id_product = product_['id']
+            response = get_soup(url=link)
+            sku = product_['sku']
+            id_product = product_['id']
 
-        spec = get_spec(response=response, sku=sku)
+            spec = get_spec(response=response, sku=sku)
 
-        if spec:
-            MySQL().write_spec(spec=spec)
-            MySQL().set_product_spec_ready(id_product=id_product)
-        else:
+            if spec:
+                MySQL().write_spec(spec=spec)
             MySQL().set_product_spec_ready(id_product=id_product)
 
-        n += 1
-        print('\rCount', n, 'Time', datetime.now() - start_time, end='')
-        sleep(0.5)
+            n += 1
+            print('\rCount', n, 'Time', datetime.now() - start_time, end='')
+            sleep(0.5)
 
 
 if __name__ == '__main__':
