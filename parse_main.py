@@ -71,7 +71,11 @@ def main():
         # print(product_['sku'])
         # MySQL().set_product_main_in_process(id_product=product_['id'])
 
-        response = get_soup(url=product_['link_product'])
+        try:
+            response = get_soup(url=product_['link_product'])
+        except:
+            print(product_)
+            break
         sku = product_['sku']
         id_product = product_['id']
         id_category = product_['id_category']
