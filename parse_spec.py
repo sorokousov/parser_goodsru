@@ -6,7 +6,7 @@ from time import sleep
 from utils.ftp import send_to_ftp, save_to_disk
 
 
-def get_spec(response):
+def get_spec(response, sku):
     spec = []
     try:
         spec_blocks = response[1].find_all('table', attrs={'class': 'tbl-typical'})
@@ -16,10 +16,7 @@ def get_spec(response):
                 for tr in trs:
                     name = tr.find('td', attrs={'class': 'color-grey'}).text.strip()
                     param = tr.find('div', attrs={'class': 'attribute-value'}).text.strip()
-                    spec.append({
-                        'name': name,
-                        'value': param
-                    })
+                    spec.append([sku, name, param])
             except:
                 pass
     except:
@@ -46,10 +43,10 @@ def main():
         sku = product_['sku']
         id_product = product_['id']
 
-        spec = get_spec(response=response)
+        spec = get_spec(response=response, sku=sku)
 
         if spec:
-            MySQL().write_spec(sku=sku, spec=spec)
+            MySQL().write_spec(spec=spec)
             MySQL().set_product_spec_ready(id_product=id_product)
         else:
             MySQL().set_product_spec_ready(id_product=id_product)

@@ -67,7 +67,9 @@ def main():
 
     while True:
         product_ = MySQL().get_product_main()
-        MySQL().set_product_main_in_process(id_product=product_['id'])
+        # print('----------------->>>')
+        # print(product_['sku'])
+        # MySQL().set_product_main_in_process(id_product=product_['id'])
 
         response = get_soup(url=product_['link_product'])
         sku = product_['sku']
@@ -85,11 +87,13 @@ def main():
         #     result = False
 
         if result and description:
+            # print('IF')
             if ftp_result:
                 MySQL().write_images(images=ftp_result)
             MySQL().write_description(sku=sku, description=description)
             MySQL().set_product_main_ready(id_product=id_product)
         else:
+            # print('ELSE')
             MySQL().set_product_main_ready(id_product=id_product)
             # MySQL().set_product_main_bad(id_product=id_product)
 
