@@ -4,6 +4,7 @@ import socket
 from config import sum_key
 import requests
 import os
+import pysftp
 
 
 def save_to_disk(files, id_category, sku):
@@ -56,6 +57,7 @@ def send_to_ftp(files, id_category, sku):
     category = f"{id_category}"
     category_dir = f"/{category}"
     dir = root_dir + category_dir + sku_dir
+
     host_ftp = '5.180.136.10'
     user_ftp = 'user1924153'
     password_ftp = 'aEdAsHaXnne9'
@@ -65,11 +67,18 @@ def send_to_ftp(files, id_category, sku):
         ftp.login(user=user_ftp, passwd=password_ftp)
         ftp.set_pasv(False)
     except:
+        print('ERROR CONNECTING FTP')
         return False
 
     try:
         ftp.cwd(dir)
     except:
+
+        try:
+            ftp.mkd(root_dir)
+        except:
+            pass
+
         try:
             ftp.cwd(root_dir)
             ftp.mkd(category)
@@ -88,9 +97,9 @@ def send_to_ftp(files, id_category, sku):
             return False
 
     result = []
-    for index, file in enumerate(files, start=1):
+    for index, link in enumerate(files, start=1):
         try:
-            res_file = requests.get(url=file, stream=True)
+            res_file = requests.get(url=link, stream=True)
             if res_file.status_code == 200:
                 with open('tmp.tmp', 'wb') as f:
                     for chunk in res_file:
@@ -99,11 +108,12 @@ def send_to_ftp(files, id_category, sku):
             path = f"{dir}/{sku}_{index}.jpg"
             res_file = open('tmp.tmp', 'rb')
             ftp.storbinary('STOR ' + path, res_file, 1024)
-            result.append({'sku': int(sku), 'path': path, 'link': file})
+            result.append([int(sku), path, link])
         except:
             result = False
             break
 
+    ftp.close()
     return result
 
 

@@ -109,22 +109,17 @@ class MySQL:
         self.write_db('update products set status_images="bad" where id=%s', (id_product,))
 
     def write_images(self, images):
-        for image in images:
-            try:
-                self.write_db(query='insert into images(sku,path) values(%s,%s)',
-                              data=(image['sku'], image['path']))
-            except:
-                pass
+        try:
+            self.write_db(query='insert into images (sku,path,link) values (%s,%s,%s)', data=(*images,), many=True)
+        except:
+            pass
 
     def write_description(self, sku, description):
         try:
             self.write_db(query='insert into descriptions(sku,description) values(%s,%s)',
                           data=(sku, description))
-            # print('WRITE')
 
         except:
-            # print('NOT WRITE')
-
             pass
 
     # spec

@@ -1,4 +1,4 @@
-from datetime import datetime
+import pysftp
 
-timestamp = datetime.now().timestamp()
-print(timestamp)
+with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+    sftp.
