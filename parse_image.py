@@ -44,9 +44,12 @@ def main():
                 ftp_result = send_to_ftp(files=images, sku=sku, id_category=id_category)
 
             if ftp_result:
-                print(ftp_result)
                 MySQL().write_images(images=ftp_result)
-            MySQL().set_product_main_ready(id_product=id_product)
+                MySQL().set_product_main_ready(id_product=id_product)
+            elif ftp_result is False:
+                MySQL().set_product_main_bad(id_product=id_product)
+            else:
+                MySQL().set_product_main_ready(id_product=id_product)
 
         n += 1
         print('\rCount', n, 'Time', datetime.now() - start_time, end='')
