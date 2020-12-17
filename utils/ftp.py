@@ -4,7 +4,6 @@ import socket
 from config import sum_key
 import requests
 import os
-import pysftp
 
 
 def save_to_disk(files, id_category, sku):
