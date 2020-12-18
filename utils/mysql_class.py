@@ -150,6 +150,34 @@ class MySQL:
         except:
             pass
 
+    # reviews
+
+    def get_product_reviews(self):
+        timestamp = datetime.now().timestamp()
+        try:
+            self.write_db('update products a join (select * from products where status_reviews="stop" limit 1) b on a.id = b.id SET a.status_reviews="in_process", a.uniq_string=%s', (timestamp,))
+            return self.read_db('select * from products where uniq_string=%s and status_reviews="in_process" limit 1', (timestamp,))[0]
+        except:
+            return None
+
+    def set_product_reviews_in_process(self, id_product):
+        self.write_db('update products set status_reviews="in_process" where id=%s', (id_product,))
+
+    def set_product_reviews_ready(self, id_product):
+        self.write_db('update products set status_reviews="ready" where id=%s', (id_product,))
+
+    def set_product_reviews_stop(self, id_product):
+        self.write_db('update products set status_reviews="stop" where id=%s', (id_product,))
+
+    def set_product_reviews_bad(self, id_product):
+        self.write_db('update products set status_reviews="bad" where id=%s', (id_product,))
+
+    def write_reviews(self, reviews):
+        try:
+            self.write_db(query='insert into reviews (sku,name,date_in,rating,plus_comment,minus_comment,comment) values (%s,%s,%s,%s,%s,%s,%s)', data=(*reviews,), many=True)
+        except:
+            pass
+
 
 if __name__ == '__main__':
     a = [[1,2,3], [4,5,6]]
