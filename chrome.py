@@ -2,7 +2,7 @@
 from datetime import datetime
 from time import sleep
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from utils.get_data import get_soup
 from utils.mysql_class import MySQL
@@ -76,10 +76,7 @@ def main():
         options = Options()
         options.headless = True
 
-        firefox_profile = webdriver.FirefoxProfile()
-        firefox_profile.set_preference('permissions.default.stylesheet', 2)
-        firefox_profile.set_preference('permissions.default.image', 2)
-        firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', 'false')
+        firefox_profile = webdriver.Chrome()
 
         driver = webdriver.Firefox(firefox_profile=firefox_profile, options=options)
 
