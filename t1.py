@@ -12,7 +12,8 @@ firefox_profile.set_preference('permissions.default.stylesheet', 2)
 firefox_profile.set_preference('permissions.default.image', 2)
 firefox_profile.set_preference('dom.ipc.plugins.enabled.libflashplayer.so', 'false')
 
-driver = webdriver.Firefox(firefox_profile=firefox_profile, options=options)
+# driver = webdriver.Firefox(firefox_profile=firefox_profile, options=options)
+driver = webdriver.Firefox(executable_path='./geckodriver', firefox_profile=firefox_profile, options=options)
 
 driver.get('https://goods.ru/catalog/details/holodilnik-s-nizhney-morozilnoy-kameroy-indesit-itf-118-w-100023475679/otzyvy/')
 tmp = ''
