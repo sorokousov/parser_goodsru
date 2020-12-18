@@ -74,10 +74,12 @@ def main():
         print("Перезапуск браузера")
 
         chromeOptions = Options()
-        chromeOptions.headless = True
         chromeOptions.add_argument('--headless')
         chromeOptions.add_argument('--no-sandbox')
-        driver = webdriver.Chrome(options=chromeOptions)
+        prefs = {"profile.managed_default_content_settings.images": 2}
+        chromeOptions.add_experimental_option('prefs', prefs)
+        driver = webdriver.Chrome(chrome_options=chromeOptions)
+        # driver = webdriver.Chrome(options=chromeOptions)
 
         driver.get('https://www.w3.org/People/mimasa/test/')
         while True:

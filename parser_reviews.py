@@ -74,7 +74,7 @@ def main():
         print("Перезапуск браузера")
 
         options = Options()
-        options.headless = True
+        options.headless = False
 
         firefox_profile = webdriver.FirefoxProfile()
         firefox_profile.set_preference('permissions.default.stylesheet', 2)
