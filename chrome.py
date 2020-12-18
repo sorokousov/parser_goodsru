@@ -73,12 +73,11 @@ def main():
         sleep(5)
         print("Перезапуск браузера")
 
-        options = Options()
-        options.headless = True
-
-        firefox_profile = webdriver.Chrome()
-
-        driver = webdriver.Firefox(firefox_profile=firefox_profile, options=options)
+        chromeOptions = Options()
+        chromeOptions.headless = True
+        chromeOptions.add_argument('--headless')
+        chromeOptions.add_argument('--no-sandbox')
+        driver = webdriver.Chrome(options=chromeOptions)
 
         driver.get('https://www.w3.org/People/mimasa/test/')
         while True:
