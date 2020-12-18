@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 chromeOptions = Options()
 chromeOptions.headless = True
-browser = webdriver.Chrome(executable_path="./drivers/chromedriver", options=chromeOptions)
+browser = webdriver.Chrome(options=chromeOptions)
 browser.get("http://linuxhint.com")
 print("Title: %s" % browser.title)
 browser.quit()
