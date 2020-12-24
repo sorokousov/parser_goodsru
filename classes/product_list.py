@@ -63,8 +63,8 @@ class ProductList:
         return False
 
     def get_and_write_products(self):
+        print('Count products', len(self.products))
         for index, product in enumerate(self.products, start=0):
-            print(product)
             try:
                 link_product = domain + self.soup.find('a', attrs={'data-product-sku': product['id']})['href']
                 print(link_product)
@@ -76,7 +76,7 @@ class ProductList:
 
 
 if __name__ == '__main__':
-    ps = ProductList(page_link='https://goods.ru/catalog/chajniki-elektricheskie/', id_category=2)
+    ps = ProductList(page_link='https://goods.ru/catalog/ssd-diski/', id_category=2)
     a = ps.this_is_product_list
     b = ps.contains_product
     c = ps.this_is_404_page
