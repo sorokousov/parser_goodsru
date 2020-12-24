@@ -108,6 +108,7 @@ def send_to_ftp(files, id_category, sku):
             res_file = open('tmp.tmp', 'rb')
             ftp.storbinary('STOR ' + path, res_file, 1024)
             result.append([int(sku), path, link])
+            print('GOOD', path, link)
         except:
             result = False
             break

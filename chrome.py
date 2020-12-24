@@ -8,8 +8,7 @@ from utils.get_data import get_soup
 from utils.mysql_class import MySQL
 from bs4 import BeautifulSoup
 
-# sudo chmod +x geckodriver
-# export PATH=$PATH:/...
+# git pull && apt install chromium-chromedriver -y && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && apt install ./google-chrome-stable_current_amd64.deb -y && pip3 install selenium
 
 
 def get_reviews(sku, page_source):
