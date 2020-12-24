@@ -66,7 +66,7 @@ class ProductList:
         for index, product in enumerate(self.products, start=0):
             print(product)
             try:
-                link_product = domain + self.soup.find('a', attrs={'data-product-id': product['id']})['href']
+                link_product = domain + self.soup.find('a', attrs={'data-product-sku': product['id']})['href']
                 print(link_product)
                 self.products[index]['link'] = link_product
                 MySQL().write_product(product=product, link_product=link_product, id_category=self.id_category)
