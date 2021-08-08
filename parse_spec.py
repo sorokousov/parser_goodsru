@@ -44,7 +44,7 @@ def main():
             id_product = product_['id']
 
             spec = get_spec(response=response, sku=sku)
-
+            print(spec)
             if spec:
                 MySQL().write_spec(spec=spec)
             MySQL().set_product_spec_ready(id_product=id_product)

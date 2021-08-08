@@ -147,7 +147,8 @@ class MySQL:
     def write_spec(self, spec):
         try:
             self.write_db(query='insert into specifications (sku,name,value) values (%s,%s,%s)', data=(*spec,), many=True)
-        except:
+        except Exception as ee:
+            print(ee)
             pass
 
     # reviews
@@ -218,4 +219,4 @@ if __name__ == '__main__':
     for i in a:
         sku = i-1257864
         print(sku)
-        # MySQL().write_db('update products set status_images="stop" where sku=%s', (sku,))
+        MySQL().write_db('update products set status_images="stop" where sku=%s', (sku,))

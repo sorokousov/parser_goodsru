@@ -41,7 +41,7 @@ def main():
 
             ftp_result = None
             if images:
-                ftp_result = save_to_disk(files=images, sku=sku, id_category=id_category)
+                ftp_result = send_to_ftp(files=images, sku=sku, id_category=id_category)
 
             if ftp_result:
                 MySQL().write_images(images=ftp_result)
